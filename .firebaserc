@@ -2,6 +2,7 @@
   "projects": {
     "angularspree": "angularspree",
     "default": "angularspree",
-    "staging": "angularspree"
+    "staging": "angularspree",
+    "stahng": "ui-ofypets"
   }
 }
