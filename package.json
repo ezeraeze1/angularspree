@@ -24,6 +24,7 @@
 
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server",
+    "start:ssr": "npm run build:ssr && npm run serve:ssr",
     "build:client-and-server-bundles": "ng build --configuration=prod-custom && ng run angularspree:server",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
   },
