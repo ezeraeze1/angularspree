@@ -1,8 +1,9 @@
+import { isPlatformBrowser } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from './../../../../core/services/product.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, PLATFORM_ID, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../interfaces';
 import { switchMap} from 'rxjs/operators';
@@ -13,7 +14,7 @@ import { getAuthStatus } from '../../../../auth/reducers/selectors';
   selector: 'app-write-product-review',
   templateUrl: './write-product-review.component.html',
   styleUrls: ['./write-product-review.component.scss'],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WriteProductReviewComponent implements OnInit {
 
@@ -30,7 +31,8 @@ export class WriteProductReviewComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private toastrService: ToastrService,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    @Inject(PLATFORM_ID) private platformId: any
   ) {
     this.store.select(getAuthStatus).subscribe(auth => {
       this.isAuthenticated = auth;
@@ -55,13 +57,12 @@ export class WriteProductReviewComponent implements OnInit {
     if (this.isAuthenticated) {
       this.reviewForm = this.fb.group({
         rating: [rating, Validators.required],
-        name: [JSON.parse(localStorage.getItem('user')).email],
+        name: [isPlatformBrowser(this.platformId) ? JSON.parse(localStorage.getItem('user')).email : ''],
         title: [title, Validators.required],
         review: [review, Validators.required]
       }
       );
-    }
-    else {
+    } else {
       this.router.navigate(['auth', 'login'])
     }
   }
@@ -76,7 +77,7 @@ export class WriteProductReviewComponent implements OnInit {
         name: formData.name,
         title: formData.title,
         review: formData.review,
-        user_id: JSON.parse(localStorage.getItem('user')).id
+        user_id: isPlatformBrowser(this.platformId) ? JSON.parse(localStorage.getItem('user')).id : null
       }
     }
   }
@@ -97,8 +98,7 @@ export class WriteProductReviewComponent implements OnInit {
             this.goToProduct(prodId)
           }
         })
-    }
-    else {
+    } else {
       this.toastrService.error('All fields are rquired', 'Invalid!')
     }
   }

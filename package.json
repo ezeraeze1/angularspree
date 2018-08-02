@@ -21,7 +21,8 @@
     "sw": "sw-precache --root=dist --config=sw-precache-config.js",
     "bundle-report": "webpack-bundle-analyzer dist/stats.json",
     "static-serve": "cd dist/browser && live-server --port=4200 --host=localhost --entry-file=/index.html",
-    "build:ssr": "npm run build:client-and-server-bundles && ng run webpack:server",
+
+    "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server",
     "build:client-and-server-bundles": "ng build --configuration=prod-custom && ng run angularspree:server",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors"

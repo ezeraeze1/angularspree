@@ -2,7 +2,7 @@ import { AppPreloadingStrategy } from './app_preloading_strategy';
 import { myAuthConfig } from './oauth_config';
 import { Ng2UiAuthModule } from 'ng2-ui-auth';
 import { EffectsModule } from '@ngrx/effects';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -62,6 +62,7 @@ import { ToastrModule } from 'ngx-toastr';
     EffectsModule.forRoot([]),
     BrowserAnimationsModule,
     BrowserModule.withServerTransition({ appId: 'ng-spree' }),
+    BrowserTransferStateModule,
     TransferHttpCacheModule,
     FormsModule,
     HttpModule,

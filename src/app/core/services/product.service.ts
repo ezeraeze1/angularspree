@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { map, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
 
 @Injectable()
 export class ProductService {
@@ -19,7 +20,8 @@ export class ProductService {
   constructor(
     private http: HttpClient,
     private toastrService: ToastrService,
-    private apiParser: JsonApiParserService
+    private apiParser: JsonApiParserService,
+    private state: TransferState
   ) { }
   // tslint:disable-next-line:member-ordering
   success: any;
@@ -34,11 +36,24 @@ export class ProductService {
    * @memberof ProductService
    */
   getProduct(id: string): Observable<Product> {
+    const SSR_STATE_KEY = makeStateKey(`product-${id}`);
+    const ssrProduct = this.state.get(SSR_STATE_KEY, null as any);
+
+    if (ssrProduct) {
+      return of(ssrProduct);
+    }
+
     return this.http
       .get<{ data: CJsonApi }>(
         `api/v1/products/${id}?data_set=large&${+new Date()}`
       )
-      .pipe(map(resp => this.apiParser.parseSingleObj(resp.data) as Product));
+      .pipe(
+        map(resp => {
+          const product = this.apiParser.parseSingleObj(resp.data) as Product;
+          this.state.set(SSR_STATE_KEY, product as any);
+          return product;
+        })
+      );
   }
 
   getProductReviews(products): Observable<any> {
