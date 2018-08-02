@@ -112,6 +112,48 @@
             "outputPath": "dist/server",
             "main": "src/main.server.ts",
             "tsConfig": "src/tsconfig.server.json"
+          },
+          "configurations": {
+            "mock-ng-spree": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mock-ng-spree.ts"
+                }
+              ]
+            },
+            "dev-ng-spree": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev-ng-spree.ts"
+                }
+              ]
+            },
+            "prod-ng-spree": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod-ng-spree.ts"
+                }
+              ]
+            },
+            "dev-custom": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev-custom.ts"
+                }
+              ]
+            },
+            "prod-custom": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod-custom.ts"
+                }
+              ]
+            }
           }
         },
         "serve": {

@@ -22,10 +22,10 @@
     "bundle-report": "webpack-bundle-analyzer dist/stats.json",
     "static-serve": "cd dist/browser && live-server --port=4200 --host=localhost --entry-file=/index.html",
 
-    "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
-    "serve:ssr": "node dist/server",
-    "start:ssr": "npm run build:ssr && npm run serve:ssr",
-    "build:client-and-server-bundles": "ng build --configuration=prod-custom && ng run angularspree:server",
+    "start:ssr:prod-custom": "npm run build:client-and-server-bundles:prod-custom && npm run webpack:server && node dist/server",
+    "start:ssr:prod-ng-spree": "npm run build:client-and-server-bundles:prod-ng-spree && npm run webpack:server && node dist/server",
+    "build:client-and-server-bundles:prod-custom": "npm run build:prod-custom && ng run angularspree:server:prod-custom",
+    "build:client-and-server-bundles:prod-ng-spree": "npm run build:prod-ng-spree && ng run angularspree:server:prod-ng-spree",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
   },
   "private": true,
